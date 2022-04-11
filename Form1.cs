@@ -43,7 +43,7 @@ namespace Cukraszda
 
                 Debug.WriteLine(sutik.Count);
                 menuStrip1.Items[1].Enabled = true;
-                //süteményekToolStripMenuItem_Click(this, null);
+                süteményekToolStripMenuItem_Click(this, null);
 
             }
 

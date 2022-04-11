@@ -20,6 +20,8 @@ namespace Cukraszda
         private List<CheckBox> cbList;
         private List<TextBox> tbList;
 
+        private string kimenet;
+
         public Form2()
         {
             InitializeComponent();
@@ -77,19 +79,39 @@ namespace Cukraszda
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string kimenet = "";
-
+            kimenet = "";
+            int vegosszeg = 0;
             for (int i = 0; i < tableLayoutPanel1.RowCount; i++)
             {
                 if (cbList[i].Checked && int.TryParse(tbList[i].Text, out int adag))
                 {
-                    kimenet += $"{adag}db {sutik[i].nev}({sutik[i].ar} Ft): {adag * sutik[i].ar} Ft\n";
+                    kimenet += $"{adag,2}db\t{sutik[i].nev,-50}\t{sutik[i].ar,4} Ft: {(adag * sutik[i].ar),6} Ft\n";
+                    vegosszeg += adag * sutik[i].ar;
                 }
             }
-            Debug.WriteLine(kimenet);
+            //Debug.WriteLine(kimenet);
 
-            string[,] asd = new string[5, 6];
-            Debug.WriteLine(asd.GetLength(0));
+            if (kimenet.Equals(""))
+            {
+                MessageBox.Show("Nincsen érvényes rendelés!", "Hiba", MessageBoxButtons.OK);
+            }
+            else
+            {
+                kimenet += $"\nVégösszeg: {vegosszeg} Ft";
+                richTextBox1.Text = kimenet;
+                richTextBox1.Visible = true;
+            }
+            
+        }
+
+        private void számlátKérToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            button1_Click(this, null);
+            if (!kimenet.Equals(""))
+            {
+                richTextBox1.Text = "SZÁMLA\n\n" + kimenet;
+                richTextBox1.Visible = true;
+            }
         }
     }
 }
